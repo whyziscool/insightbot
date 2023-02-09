@@ -1,0 +1,10 @@
+# .gitignore for databases
+
+# Ignore database dump files
+*.sql
+
+# Ignore environment files with sensitive information
+.env
+
+# Ignore the actual database files
+data/
