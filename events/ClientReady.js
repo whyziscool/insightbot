@@ -1,29 +1,112 @@
 const { Events } = require('discord.js');
+const noblox = require("noblox.js")
+const moment = require("moment-timezone")
 
-const sqlite3 = require("better-sqlite3");
-const db = new sqlite3("./database/clownery.db")
+const sqlite3 = require('sqlite3').verbose();
+
+const db = new sqlite3.Database('./database/database.db', (err) => {
+  if (err) {
+    console.error(err.message);
+  }
+  console.log('connected to the database');
+  
+  // Create the pastebins table if it doesn't exist
+  db.run(`CREATE TABLE IF NOT EXISTS scripts (
+    id TEXT PRIMARY KEY,
+    content TEXT,
+    owner_id TEXT
+  )`, (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+  });
+});
 
 module.exports = {
-	name: Events.ClientReady,
-	once: true,
-	async execute(client) {
-console.log(`logged in as ${client.user.tag}`)
+  name: Events.ClientReady,
+  once: true,
+  async execute(client) {
+    client.roblox = await noblox.setCookie(process.env.COOKIE)
 
-  const table = db.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'clownery';").get();
-  if (!table['count(*)']) {
-    // If the table isn't there, create it and setup the database correctly.
-    db.prepare("CREATE TABLE clownery (id TEXT PRIMARY KEY, message TEXT, weirdamount INTEGER);").run();
-    // Ensure that the "id" row is always unique and indexed.
-    db.prepare("CREATE UNIQUE INDEX idx_scores_id ON clownery (id);").run();
-    db.pragma("synchronous = 1");
-    db.pragma("journal_mode = wal");
+    client.checkTable = function(array, look_for) {
+      for (var value of array) {
+        if (value === look_for) {
+          return true
+        }
+      }
+
+      return false
+    }
+
+    client.wait = function(seconds) {
+      return new Promise(resolve => setTimeout(resolve, seconds * 1000));
+    }
+
+    client.storage = require("../src/storage")
+
+    client.database = db
+
+    console.log(`logged in as ${client.user.tag}`)
+    console.log(`signed in as ${client.roblox.UserName}#${client.roblox.UserID}`)
+
+    setInterval(() => {
+  const currentTime = moment().tz("Asia/Kuwait");
+  const currentHour = currentTime.hour();
+  const currentMinute = currentTime.minute();
+
+  // Prayer times in Kuwait
+  const prayerTimes = {
+    4: 'Fajr', 12: 'Dhuhr', 15: 'Asr', 18: 'Maghrib', 19: 'Isha',
+  };
+
+  if (currentMinute === 25 && currentHour in prayerTimes) {
+    const prayerName = prayerTimes[currentHour];
+
+    const channel = client.channels.cache.get("1076742729977045075");
+    if (channel) {
+      const lastPrayerTime = client.lastPrayerTime || "Jummah";
+      
+      if (lastPrayerTime === prayerName) {
+        return;
+      }
+      client.lastPrayerTime = prayerName;
+
+      channel.send("======= " + prayerName + " Prayer =======");
+      channel.send("[KUWAIT TIMING] USA Prayer Time is XX + 8 hour");
+
+      channel.send("Allahu Akbar Allahu Akbar.");
+
+      client.wait(2);
+
+      channel.send("Ašhadu al lā ilāha illā -llāhu");
+
+      client.wait(1);
+
+      channel.send("Ašhadu anna Muḥammada rasūlu -llāhi");
+
+      client.wait(1);
+
+      channel.send("Hasten to Prayer");
+
+      client.wait(1);
+      channel.send("Hasten to Salvation");
+
+      client.wait(1);
+
+      if (prayerName === "Fajr") {
+        channel.send("Prayer is better than sleep");
+      }
+
+      client.wait(1);
+
+      channel.send("Allahu Akbar Allahu Akbar");
+      channel.send("Ašhadu al lā ilāha illā -llāhu");
+
+      channel.send("======= " + prayerName + " Prayer =======");
+    }
   }
+}, 10 * 1000); // run every 10 seconds
+ // Check every 30 seconds
 
-  client.getDB = db.prepare("SELECT * FROM clownery WHERE id = ?");
-  client.setDB = db.prepare("INSERT OR REPLACE INTO clownery (id, message, weirdamount) VALUES (@id, @message, @weirdamount);");
-
-  client.guilds.fetch()
-  client.deadlands = client.guilds.cache.get("1052305529021665411")
-  client.clownery = client.deadlands.channels.cache.get("1073043301256675368")
   }
 };
