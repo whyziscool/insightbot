@@ -3,6 +3,7 @@ const noblox = require('noblox.js')
 
 module.exports = {
   name: "privateserver",
+  description: "sends a rogue ps code",
   aliases: ["ps", "private"],
   async run(client, message, command, args) {  
     var ps = client.storage["privateservers"][Math.floor(Math.random() * client.storage["privateservers"].length)]

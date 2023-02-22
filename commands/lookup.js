@@ -3,6 +3,7 @@ const noblox = require('noblox.js')
 
 module.exports = {
   name: "lookup",
+  description: "shows information about a roblox user",
   aliases: ["whois"],
   async run(client, message, command, args) {
     if (!args[0]) return message.reply("provide <username>")
@@ -47,7 +48,13 @@ if (!user) return message.reply("got an unexpected error", true)
         ["CaptainLosticJr"]: "uses discord.py",
         ["ExoMood"]: "poor man got his acc termimated",
         ["Agamatsu"]: "dragon sage main",
-        ["diavzo"]: Math.random() * 255 + "." + Math.random() * 255 + "." + Math.random() * 255 + "." + Math.random() * 255,
+        ["Taahmi"]: "hello",
+        ["grim_cure"]: "go $lookup Taahmi",
+        ["PixelAissar"]: "terrorist",
+        ["BananaWaffleCake"]: "inmoon" ,
+        ["fuckyou"]: "fuk",
+        
+        ["diavzo"]: Math.floor(Math.random() * 255) + "." + Math.floor(Math.random() * 255) + "." + Math.floor(Math.random() * 255) + "." + Math.floor(Math.random() * 255),
         
       }
 

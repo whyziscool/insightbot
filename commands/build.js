@@ -15,6 +15,7 @@ function chooseWithException(table, auth) {
 
 module.exports = {
   name: "build",
+  description: "gives a rogue lineage build",
   aliases: ["buildidea", "build", "rbuild", "buildorbust"],
   async run(client, message, command, args) {
     var source = client.storage

@@ -14,7 +14,8 @@ const db = new sqlite3.Database('./database/database.db', (err) => {
   db.run(`CREATE TABLE IF NOT EXISTS scripts (
     id TEXT PRIMARY KEY,
     content TEXT,
-    owner_id TEXT
+    owner_id TEXT,
+    guild_id TEXT
   )`, (err) => {
     if (err) {
       console.error(err.message);

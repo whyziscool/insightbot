@@ -5,14 +5,14 @@ app.get('/', (req, res) => {
   res.send('server started')
 });
 
-app.listen(8000, () => {
+app.listen(3000, () => {
    console.log('server started');
 });
 
 const { Client, GatewayIntentBits, Partials, Collection, Events } = require('discord.js')
 const noblox = require('noblox.js')
 
-const client = new Client({ intents: 46595, partials: [Partials.Channel, Partials.Message, Partials.GuildMember, Partials.User] })
+const client = new Client({ intents: 65327, partials: [Partials.Channel, Partials.Message, Partials.GuildMember, Partials.User] })
 
 var fs = require("fs");
 

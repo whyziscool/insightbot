@@ -3,6 +3,7 @@ const noblox = require('noblox.js')
 
 module.exports = {
   name: "template",
+  description: "this isn't a command",
   aliases: ["temp"],
   async run(client, message, command, args) {  
    if (!args[0]) return message.reply("provide something like edit or create or something")
