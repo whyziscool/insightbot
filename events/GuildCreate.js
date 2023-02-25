@@ -4,7 +4,7 @@ module.exports = {
   name: Events.GuildCreate,
   once: false,
   async execute(client) {
-    client.user.setPresence({ activities: [{ name: 'currently in ' + (client.guilds.length + 1) + ' servers'}] });
+    client.user.setPresence({ activities: [{ name: 'currently in ' + (client.guilds.size + 1) + ' servers'}] });
     var channel = client.channels.cache.get("1079007386284609627")
 
     if (channel) {

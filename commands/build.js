@@ -7,15 +7,8 @@ function chooseWithException(table, auth) {
   return newTable[Math.floor(Math.random() * newTable.length)];
 }
 
-module.exports = {
-  name: "build",
-  description: "gives a rogue lineage build",
-  aliases: ["buildidea", "build", "rbuild", "buildorbust"],
-  cooldown: 3,
-  cooldowns: [],
-  async run(client, message, command, args) {
-    
-    const storage = client.storage;
+function giveBuild(client, message, args) {
+  const storage = client.storage;
     const races = storage.races;
     const classes = storage.classes;
     const artifacts = storage.artifacts;
@@ -25,7 +18,9 @@ module.exports = {
     if (args && args[0]) {
       chosenRace = args[0] ? args[0].toLowerCase().charAt(0).toUpperCase() + args[0].slice(1) : chooseWithException(races, []);
     if (!races.includes(chosenRace)) {
-      return message.reply(`could not find race in table called ${chosenRace}`);
+      message.reply(`could not find race in table called ${chosenRace}`);
+      
+      return [false] 
     }}
 
     var authClasses;
@@ -37,7 +32,7 @@ module.exports = {
        authClasses = ["Druid", "Whisperer", "Shinobi" , "Sigil Knight Commander", "Dragon Sage", "Bard", "Dark Sigil Knight"]
         break;
       case "Azael":
-        authClasses = ["Whisperer", "Shinobi", "Druid", "Sigil Knight Commander", "Bard", "Monk Akuma"];
+        authClasses = ["Whisperer", "Shinobi", "Druid", "Sigil Knight Commander", "Bard", "Dark Sigil Knight" , "Master Illusionist", "Master Necromancer"];
         break;
       case "Dinakeri":
         authClasses = ["Dark Sigil Knight", "Druid", "Oni", "Whisperer", "Faceless", "Deep Knight"]
@@ -89,6 +84,10 @@ authClasses = ["Oni", "Shinobi", "Ronin", "Lapidarist", "Master Necromancer", "F
 chosenArtifact = "Philospher's Stone"
 
         break;
+      case "Monk Akuma":
+        chosenArtifact = "Fairfrozen"
+
+        break;
       default:
         authArtifacts = ["Lannis Amulet", "Spider Cloak"]
       
@@ -135,6 +134,29 @@ const classToImage = {
 const defaultImage = "https://media.discordapp.net/attachments/1077015311926177904/1077264770480230451/image0.gif";
 const imgT = classToImage[chosenClass] || defaultImage;
 
+  return [chosenRace, chosenClass, chosenArtifact, isVampire, imgT, emulate]
+}
+
+
+
+module.exports = {
+  name: "build",
+  description: "gives a rogue lineage build",
+  aliases: ["buildidea", "build", "rbuild", "buildorbust"],
+  cooldown: 3,
+  cooldowns: [],
+  async run(client, message, command, args) {
+    var data = giveBuild(client, message, args)
+
+ if (data[0] === false) return;
+    
+    var chosenRace = data[0]
+    var chosenClass = data[1]
+    var chosenArtifact = data[2]
+    var isVampire = data[3]
+    var imgT = data[4]
+    var emulate = data[5]
+    
     var infoembed = new EmbedBuilder()
     infoembed.setTitle("rogue lineage: " + chosenClass + " build")
     infoembed.setColor("#e3e3e3")
@@ -147,7 +169,7 @@ const imgT = classToImage[chosenClass] || defaultImage;
       { name: "Vampire", value: String(isVampire) }
     )
 
-      if (chosenClass === "Navaran") {
+      if (chosenRace === "Navaran") {
 infoembed.addFields(
   {name: "Emulate", value: String(emulate)}
   )
@@ -155,8 +177,58 @@ infoembed.addFields(
 
     var msg = await message.reply({ embeds: [infoembed] }, true)
 
-    msg.react("✅")
-    msg.react("❌")
+    msg.react('✅').then(() => msg.react('❌'));
+
+const filter = (reaction, user) => {
+	return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
+};
+msg.awaitReactions({ filter, max: 1, time: 600000, errors: ['time'] })
+	.then(collected => {
+		const reaction = collected.first();
+
+		if (reaction.emoji.name === '✅') {
+			message.reply('i sent the build to your dms', true);
+if (message.author.id === "584774112120143964") {
+message.author.send("https://cdn.discordapp.com/attachments/523282321303142400/1077288914794061925/rapidsave.com_trunk_shaker-9dptup9ireia1.mp4")
+} else {
+message.author.send({embeds: [msg.embeds[0]]})
+}
+		} else {
+			var data = giveBuild(client, message, args)
+    var chosenRace = data[0]
+    var chosenClass = data[1]
+    var chosenArtifact = data[2]
+    var isVampire = data[3]
+    var imgT = data[4]
+    var emulate = data[5]
+    
+    var infoembed = new EmbedBuilder()
+    infoembed.setTitle("rogue lineage: " + chosenClass + " build")
+    infoembed.setColor("#e3e3e3")
+    infoembed.setDescription("keep in mind it generates randomly and has some adjusting so it won't give the best build in first try")
+    infoembed.setThumbnail(imgT)
+    infoembed.addFields(
+      { name: "Race", value: String(chosenRace) },
+      { name: "Class", value: String(chosenClass) },
+      { name: "Artifact", value: String(chosenArtifact) },
+      { name: "Vampire", value: String(isVampire) }
+    )
+
+      if (chosenRace === "Navaran") {
+infoembed.addFields(
+  {name: "Emulate", value: String(emulate)}
+  )
+      }
+
+    msg.edit({ embeds: [infoembed] }, true)
+		}
+	})
+	.catch(collected => {
+	console.log("did not react in time")
+	});
+    
+
+  
 
   }
 }
