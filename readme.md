@@ -24,7 +24,7 @@ it contains:
 
 *
 
-* insight bot can not be copied and/or distributed without the express
+* insight bot can not be copied and/or distributed without the express (though it is allowed to contribute towards the project)
 
 * permission of notaisar
 
