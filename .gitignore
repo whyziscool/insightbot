@@ -11,6 +11,7 @@
 
 # Ignore the actual database files
 database/
+src/
 
 # Ignore replit files aswell
 
