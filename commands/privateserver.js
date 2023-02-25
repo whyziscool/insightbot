@@ -5,6 +5,8 @@ module.exports = {
   name: "privateserver",
   description: "sends a rogue ps code",
   aliases: ["ps", "private"],
+  cooldown: 3,
+  cooldowns: [],
   async run(client, message, command, args) {  
     var ps = client.storage["privateservers"][Math.floor(Math.random() * client.storage["privateservers"].length)]
     var embed = new EmbedBuilder()

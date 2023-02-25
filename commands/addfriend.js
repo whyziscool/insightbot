@@ -3,10 +3,12 @@ const noblox = require('noblox.js')
 
 module.exports = {
   name: "addfriend",
-  description: "sends a friend request",
+  description: "sends a friend request from the bot's account on roblox",
   aliases: ["friend"],
+  cooldown: 15,
+  cooldowns: [],
   async run(client, message, command, args) {
-    if (!args[0]) return message.reply("provide something like edit or create or something")
+    if (!args[0]) return message.reply("provide something like ragoozer or ur user or something")
 
     var userid
     var actualArg = String(args.join(" ")).substring(0, 20)

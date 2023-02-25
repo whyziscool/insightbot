@@ -6,6 +6,9 @@ var fs = require("fs");
 module.exports = {
   name: "help",
   aliases: ["commands"],
+cooldown: 3,
+  cooldowns: [],
+
   async run(client, message, command, args) { 
     var description = ""
     
@@ -21,7 +24,7 @@ module.exports = {
      description = description + "**#** `" + fileContents.name + "`\ndescription: " + fileContents.description + "\naliases: `" + fileContents.aliases.join(" | ") + "` \n\n"
    }
 
-    description = description + "\n\nhttps://discord.com/api/oauth2/authorize?client_id=1076862278839848982&permissions=8&scope=bot"
+    description = description + "\nhttps://discord.com/api/oauth2/authorize?client_id=1076862278839848982&permissions=8&scope=bot"
 
    var helpEmbed = new EmbedBuilder()
    helpEmbed.setTitle("bot commands")

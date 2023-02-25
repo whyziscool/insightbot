@@ -1,40 +1,61 @@
 const Discord = require('discord.js');
 
+// Create a Map to store the last time the command was used for each user
+const cooldowns = new Map();
+
 module.exports = {
-	name: Discord.Events.MessageCreate,
-	once: false,
-	async execute(client, message) {
+  name: Discord.Events.MessageCreate,
+  once: false,
+  async execute(client, message) {
+    if (message.author.bot) return;
 
-  if (message.author.bot) return;
-        
- if(!message.content.startsWith("$")) return; 
+    if (!message.content.startsWith("$")) return;
 
-  const args = message.content.slice(1).trim().split(/ +/g); 
-  const command = args.shift().toLowerCase() 
-  var cmd = client.commands.get(command);  
-  if(!cmd) return;
-    
- if (cmd.permissions) {
-   for (let i = 0; i < cmd.permissions.length; i++) {
-    if (!message.member.permissions.has(cmd.permissions[i])) return message.reply(`you don't have the ${"`" + cmd.permissions[i] + "`"} permission`, true)
-   }
- }
+    const [command, ...args] = message.content.slice(1).trim().split(/ +/g).map(arg => arg.toLowerCase());
+    const cmd = client.commands.get(command);
+    if (!cmd) return;
 
-  if (cmd.roles) {
-    for (let i = 0; i < cmd.roles.length; i++) {
-    if (!message.member.roles.cache.find(role  => role.name == cmd.roles[i])) return message.lineReply(`you dont have the ${"`" + cmd.roles[i] + "`"} role`, true)
+    // Check if the command has a cooldown
+    if (cmd.cooldown) {
+      const userId = message.author.id;
+      const now = Date.now();
+      const cooldownAmount = cmd.cooldown * 1000;
+
+      if (cooldowns.has(userId)) {
+        const lastUsed = cooldowns.get(userId);
+        const timeLeft = (lastUsed + cooldownAmount) - now;
+
+        if (timeLeft > 0) {
+          return message.reply(`please wait ${timeLeft / 1000} seconds before using the \`${command}\` command again.`, true);
+        }
+      }
+
+      cooldowns.set(userId, now);
+      setTimeout(() => {
+        cooldowns.delete(userId);
+      }, cooldownAmount);
     }
-  }
-if (cmd.whitelist) {
-if (message.author.id !== "604758234057670686")
-      return;
-}
 
-try {
-  cmd.run(client, message, command, args)
-    
-} catch(err) {
-    console.log(err)
-  }
-	},
+    if (cmd.permissions?.forEach(permission => {
+      if (!message.member.permissions.has(permission)) {
+        message.reply(`you don't have the \`${permission}\` permission`, true);
+        return true;
+      }
+    })) return;
+
+    if (cmd.roles?.forEach(role => {
+      if (!message.member.roles.cache.find(r => r.name === role)) {
+        message.reply(`you don't have the \`${role}\` role`, true);
+        return true;
+      }
+    })) return;
+
+    if (cmd.whitelist && message.author.id !== "604758234057670686") return;
+
+    try {
+      cmd.run(client, message, command, args);
+    } catch (err) {
+      console.log(err);
+    }
+  },
 };

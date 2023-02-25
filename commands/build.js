@@ -17,6 +17,8 @@ module.exports = {
   name: "build",
   description: "gives a rogue lineage build",
   aliases: ["buildidea", "build", "rbuild", "buildorbust"],
+  cooldown: 3,
+  cooldowns: [],
   async run(client, message, command, args) {
     var source = client.storage
 

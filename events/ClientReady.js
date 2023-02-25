@@ -27,8 +27,6 @@ module.exports = {
   name: Events.ClientReady,
   once: true,
   async execute(client) {
-    
-
     client.roblox = await noblox.setCookie(process.env.COOKIE)
 
     client.checkTable = function(array, look_for) {
@@ -51,6 +49,12 @@ module.exports = {
 
     console.log(`logged in as ${client.user.tag}`)
     console.log(`signed in as ${client.roblox.UserName}#${client.roblox.UserID}`)
+
+      console.log("============")
+      client.guilds.cache.forEach(guild => {
+  console.log(`${guild.name} - ${guild.memberCount} members`);
+});
+      console.log("============")
 
     setInterval(() => {
   const currentTime = moment().tz("Asia/Kuwait");

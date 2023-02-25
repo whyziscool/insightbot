@@ -17,6 +17,8 @@ module.exports = {
   name: "wiki",
   description: "searches something in the rogue lineage wiki",
   aliases: ["info", "rinfo", "rwiki"],
+  cooldown: 2,
+  cooldowns: [],
   async run(client, message, command, args) {  
    if (!args[0]) return message.reply("provide something like scholar or shinobi or something")
 

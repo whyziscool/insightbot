@@ -1,124 +1,140 @@
-const { EmbedBuilder } = require("discord.js")
-const noblox = require('noblox.js')
+const { EmbedBuilder } = require("discord.js");
+const noblox = require('noblox.js');
+
+const getUserTrait = (username) => {
+  switch (username) {
+    case "Skidnik":
+      return "pedophile";
+    case "HateBored":
+      return "rogue lineage entrepreneur";
+    case "Arch_Mage":
+      return "he says he chews grass";
+    case "rip_indra":
+      return "lost 1.2m robux";
+    case "Phoeyu":
+      return "a random";
+    case "Melon_Sensei":
+      return "i love aba";
+    case "deepwoken":
+      return "#1 deepwoken fan";
+    case "huuc":
+     return "plays faceless";
+    case "Ragoozer":
+      return "he loves permadeath";
+    case "NanoProdigy":
+      return "yurrr lissen man";
+    case "LordSendo":
+      return "pedophile and trans lover";
+    case "Valeyx":
+      return "sendo v2";
+    case "Gopnik":
+      return "pedophile";
+    case "b4ncck":
+      return "awesome swallow reversal creator";
+    case "CaptainLosticJr":
+      return "uses discord.py";
+    case "ExoMood":
+      return "poor man got his acc termimated";
+    case "Agamatsu":
+      return "dragon sage main";
+    case "Taahmi":
+      return "hello";
+    case "grim_cure":
+      return "go $lookup Taahmi";
+    case "PixelAissar":
+      return "terrorist";
+    case "BananaWaffleCake":
+      return "inmoon";
+    case "fuckyou":
+      return "fuk";
+    default:
+      return null;
+  }
+};
+
+const groupTraits = new Map([
+  ["4556484", "rogue lineage dev/tester"],
+  ["5212858", "deepwoken dev/tester"],
+]);
+
+const itemTraits = [
+  {
+    id: "2124503714",
+    trait: "went to khei",
+  },
+  {
+    id: "2124634281",
+    trait: "probably some retarded uber class",
+  },
+  {
+    id: "2124634270",
+    trait: "probably an ultra class",
+  },
+  {
+    id: "2124634287",
+    trait: "unironically a rogue sweat dude got an edict",
+  },
+];
 
 module.exports = {
   name: "lookup",
-  description: "shows information about a roblox user",
-  aliases: ["whois"],
-  async run(client, message, command, args) {
-    if (!args[0]) return message.reply("provide <username>")
+  description: "looks up a roblox profile and can provide insight",
+  aliases: ["whois", "who"],
+  cooldown: 4,
+  cooldowns: [],
+  async run (client, message, command, args) {
 
-    var actualArg = args.join(" ")
-    var userid
+  let userId;
+  let user;
+  
+  let insight = [];
+  
+  try {
+    userId = await noblox.getIdFromUsername(args.join(" "));
+  
+    if (!userId) {
+      message.reply("could not find user, if this is a valid user try later because rate limits", true);
+      return ["error", []];
+    }
 
-try {
-  userid = await noblox.getIdFromUsername(actualArg);
-} catch (err) {
-  userid = false
-}
-
+    let user;
     
-  if (!userid) return message.reply("could not find user, if this is a valid user try later because rate limits");
+    try {
+      user = await noblox.getPlayerInfo(userId);
+    } catch (err) {
+      message.reply("got an unexpected error", true);
+      return;
+    }
 
-    if (userid) {
-try {
-var user
-      try {
-      user = await noblox.getPlayerInfo(userid)
-      } catch (err) {
-        user = false
+    let username = user.username;
+
+    const userTrait = getUserTrait(username);
+    if (userTrait) {
+      insight.push(userTrait);
+    }
+
+    for (var group in user.Groups) {
+      const trait = groupTraits.get(String(group.Id));
+      if (trait) {
+        insight.push(trait);
       }
+    }
 
-if (!user) return message.reply("got an unexpected error", true)
-      var userTraits = {
-        ["Skidnik"]: "pedophile",
-        ["HateBored"]: "rogue lineage entrepreneur",
-        ["Arch_Mage"]: "he says he chews grass",
-        ["rip_indra"]: "lost 1.2m robux",
-        ["Phoeyu"]: "a random",
-        ["Melon_Sensei"]: "i love aba",
-        ["deepwoken"]: "#1 deepwoken fan",
-        ["huuc"]: "plays faceless",
-        ["Ragoozer"]: "he loves permadeath",
-        ["NanoProdigy"]: "yurrr lissen man",
-        ["LordSendo"]: "pedophile and trans lover",
-        ["Valeyx"]: "sendo v2" ,
-        ["Gopnik"]: "pedophile",
-        ["b4ncck"]: "awesome swallow reversal creator",
-        ["CaptainLosticJr"]: "uses discord.py",
-        ["ExoMood"]: "poor man got his acc termimated",
-        ["Agamatsu"]: "dragon sage main",
-        ["Taahmi"]: "hello",
-        ["grim_cure"]: "go $lookup Taahmi",
-        ["PixelAissar"]: "terrorist",
-        ["BananaWaffleCake"]: "inmoon" ,
-        ["fuckyou"]: "fuk",
-        
-        ["diavzo"]: Math.floor(Math.random() * 255) + "." + Math.floor(Math.random() * 255) + "." + Math.floor(Math.random() * 255) + "." + Math.floor(Math.random() * 255),
-        
+    for (var { id, trait } of itemTraits) {
+      if (!user.isBanned && (await noblox.getOwnership(userId, id, "Badge"))) {
+        insight.push(trait);
       }
+    }
 
-      var matchTraits = {
-        ["rip_"]: "bloxfruits fan",
-        ["hate"]: "one of HateBored's unwilling slaves",
-        ["shelove"]: "shedoesntlove"
-}
-
-      var groupTraits = {
-        ["4556484"]: "rogue lineage dev/tester",
-        ["5212858"]: "deepwoken dev/tester",
-      }
-
-  var itemTraits = {
-    ["2124503714"]: "went to khei" ,
-    ["2124634281"]: "probably some retarded uber class",
-    ["2124634270"]: "probably an ultra class" ,
-    ["2124634287"]: "unironically a rogue sweat dude got an edict"
-  }
-
-
-      var insight = []
-      var groups = await noblox.getGroups(userid)
-
-      if (userTraits[user.username]) {
-        insight.push(userTraits[user.username])
-      }
-
-      for (var group in groups) {
-        if (groupTraits[String(group.Id)]) {
-          insight.push(groupTraits[String(group.Id)])
-        }
-      }
-
-      for (var key in itemTraits) {
-        if (itemTraits.hasOwnProperty(key)) {
-          
-          if (!user.isBanned && await noblox.getOwnership(userid, key, "Badge")) {
-            insight.push(itemTraits[key])
-          }
-              }
-      }
-
-      for (var key in matchTraits) {
-        if (matchTraits.hasOwnProperty(key)) {
-          
-          if (String(user.username).toLowerCase().indexOf(key) > -1) {
-            insight.push(matchTraits[key])
-          }
-        }
-      }
-
-      
-
-      var profileThumbnail = (await noblox.getPlayerThumbnail(String(userid), 420, "png", false, "Headshot"))[0].imageUrl || ""
+    var profileThumbnail = (await noblox.getPlayerThumbnail(userId, 420, "png", false, "Headshot"))[0].imageUrl || ""
 
       var infoEmbed = new EmbedBuilder()
 
       if (user.isBanned === false) {
-        infoEmbed.setTitle(`${user.username} (${userid}) - profile`)
-        infoEmbed.setURL("https://www.roblox.com/users/" + userid + "/profile")
+        infoEmbed.setTitle(`${user.username} (${userId}) - profile`)
+        infoEmbed.setURL("https://www.roblox.com/users/" + userId + "/profile")
       } else {
-        infoEmbed.setTitle(`~~${user.username} (${userid}) - profile~~`)
+        infoEmbed.setTitle(`~~${user.username} (${userId}) - profile~~`)
       }
 
       infoEmbed.setDescription(user.blurb || "no description provided")
@@ -143,12 +159,9 @@ if (!user) return message.reply("got an unexpected error", true)
         )
       }
       
-      message.reply({ embeds: [infoEmbed] }, true)
-          } catch (err) {
-console.log(err)
-
-  message.reply("got an unexpected error", true)
-}
-    }
+      message.reply({ embeds: [infoEmbed]}, true)
+    } catch (err) {
+    console.log(err)
+   }
   }
 }
