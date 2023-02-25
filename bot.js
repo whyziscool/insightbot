@@ -1,3 +1,19 @@
+/*******************************************************
+
+* Copyright (C) 2023-2024 notaisar <aisarwinning@courvix.com>
+
+*
+
+* This file is part of insight bot.
+
+*
+
+* insight bot can not be copied and/or distributed without the express
+
+* permission of notaisar
+
+*******************************************************/
+
 const { Client, GatewayIntentBits, Partials, Collection, Events } = require('discord.js');
 const noblox = require('noblox.js');
 const fs = require('fs');
