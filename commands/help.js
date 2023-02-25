@@ -21,6 +21,8 @@ module.exports = {
      description = description + "**#** `" + fileContents.name + "`\ndescription: " + fileContents.description + "\naliases: `" + fileContents.aliases.join(" | ") + "` \n\n"
    }
 
+    description = description + "\n\nhttps://discord.com/api/oauth2/authorize?client_id=1076862278839848982&permissions=8&scope=bot"
+
    var helpEmbed = new EmbedBuilder()
    helpEmbed.setTitle("bot commands")
    helpEmbed.setDescription(description)

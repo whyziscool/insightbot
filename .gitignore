@@ -6,5 +6,8 @@
 # Ignore environment files with sensitive information
 .env
 
+# Ignore data
+.db
+
 # Ignore the actual database files
-data/
+database/

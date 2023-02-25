@@ -12,7 +12,7 @@ app.listen(3000, () => {
 const { Client, GatewayIntentBits, Partials, Collection, Events } = require('discord.js')
 const noblox = require('noblox.js')
 
-const client = new Client({ intents: 65327, partials: [Partials.Channel, Partials.Message, Partials.GuildMember, Partials.User] })
+const client = new Client({ intents: 65447, partials: [Partials.Channel, Partials.Message, Partials.GuildMember, Partials.User] })
 
 var fs = require("fs");
 

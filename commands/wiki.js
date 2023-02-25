@@ -20,6 +20,8 @@ module.exports = {
   async run(client, message, command, args) {  
    if (!args[0]) return message.reply("provide something like scholar or shinobi or something")
 
+    try {
+
        const query = args.join(" ")
        const url = `https://rogue-lineage.fandom.com/wiki/${encodeURIComponent(query)}`;
 
@@ -77,6 +79,9 @@ module.exports = {
       message.reply("page doesn't exist", true)
 
       console.log(err)
+    }
+    } catch(err) {
+      console.log("WIKI.js - " + err)
     }
   } 
 }

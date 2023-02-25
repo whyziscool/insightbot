@@ -99,9 +99,22 @@ module.exports = {
     
     var list 
 
+    function convert(row) {
+      var usser = message.guild.members.cache.get(row.owner_id)
+
+    if (usser) {
+      usser = usser.user.username
+    } else {
+      usser = row.owner_id || "undefined"
+    }
+
+    return usser
+  }
+    
     message.guild.members.fetch()
     
- list = rows.map(row => `- ${String(row.id).substring(0, 30)} (author: ${String(message.guild.members.cache.get(row.owner_id).user.username)})`).join('\n');
+ list = rows.map(row => 
+`- ${String(row.id).substring(0, 30)} (author: ${String(convert(row))})`).join('\n');
         
     var embed = new EmbedBuilder()
     embed.setTitle("script list")

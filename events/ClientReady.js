@@ -1,7 +1,7 @@
 const { Events } = require('discord.js');
 const noblox = require("noblox.js")
 const moment = require("moment-timezone")
-
+const { joinVoiceChannel, generateDependencyReport, createAudioPlayer, createAudioResource } = require("@discordjs/voice")
 const sqlite3 = require('sqlite3').verbose();
 
 const db = new sqlite3.Database('./database/database.db', (err) => {
@@ -27,6 +27,8 @@ module.exports = {
   name: Events.ClientReady,
   once: true,
   async execute(client) {
+    
+
     client.roblox = await noblox.setCookie(process.env.COOKIE)
 
     client.checkTable = function(array, look_for) {
@@ -72,9 +74,11 @@ module.exports = {
       }
       client.lastPrayerTime = prayerName;
 
+      console.log("adhaan started")
+      
       channel.send("======= " + prayerName + " Prayer =======");
       channel.send("[KUWAIT TIMING] USA Prayer Time is XX + 8 hour");
-
+      channel.send('JOIN VC FOR ADHAN')
       channel.send("Allahu Akbar Allahu Akbar.");
 
       client.wait(2);
