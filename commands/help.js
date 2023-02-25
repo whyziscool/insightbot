@@ -24,7 +24,7 @@ cooldown: 3,
      description = description + "**#** `" + fileContents.name + "`\ndescription: " + fileContents.description + "\naliases: `" + fileContents.aliases.join(" | ") + "` \n\n"
    }
 
-    description = description + "\n*Support:* https://discord.gg/bytBBAz5rx\n*Invite:* https://discord.com/api/oauth2/authorize?client_id=1076862278839848982&permissions=8&scope=bot"
+    description = description + "\n*Servers*: " + client.guilds.cache.size + " (true server count: " + client.getServers()[0] + ")" + "\n*Support:* https://discord.gg/bytBBAz5rx\n*Invite:* https://discord.com/api/oauth2/authorize?client_id=1076862278839848982&permissions=8&scope=bot"
 
    var helpEmbed = new EmbedBuilder()
    helpEmbed.setTitle("bot commands")

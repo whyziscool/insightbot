@@ -27,7 +27,8 @@ module.exports = {
   name: Events.ClientReady,
   once: true,
   async execute(client) {
-    client.user.setPresence({ activities: [{ name: 'currently in ' + client.guilds.cache.size + ' servers'}] });
+
+    client.guilds.fetch()
     
     client.roblox = await noblox.setCookie(process.env.COOKIE)
 
@@ -44,6 +45,22 @@ module.exports = {
     client.wait = function(seconds) {
       return new Promise(resolve => setTimeout(resolve, seconds * 1000));
     }
+
+    client.getServers = function() {
+      var real = 0
+
+client.guilds.cache.forEach(guild => {
+  if (guild.memberCount > 4) {
+    real++ 
+  }
+  
+  
+});
+
+         return [String(real), client.guilds.cache.size]
+    }
+
+    client.user.setPresence({ activities: [{ name: 'currently in ' + client.getServers()[0] + ' servers (' + client.guilds.cache.size + ')'}] });
 
     client.storage = require("../src/storage")
 

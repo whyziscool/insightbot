@@ -17,6 +17,8 @@ const getUserTrait = (username) => {
       return "i love aba";
     case "deepwoken":
       return "#1 deepwoken fan";
+    case "1UpShroom":
+      return "tech support scammer";
     case "huuc":
      return "plays faceless";
     case "clash_andrew":

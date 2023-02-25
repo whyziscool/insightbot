@@ -35,7 +35,7 @@ function giveBuild(client, message, args) {
         authClasses = ["Whisperer", "Shinobi", "Druid", "Sigil Knight Commander", "Bard", "Dark Sigil Knight" , "Master Illusionist", "Master Necromancer"];
         break;
       case "Dinakeri":
-        authClasses = ["Dark Sigil Knight", "Druid", "Oni", "Whisperer", "Faceless", "Deep Knight"]
+        authClasses = ["Dark Sigil Knight", "Druid", "Oni", "Whisperer", "Faceless", "Deep Knight", "Master Illusionist", "Shinobi"]
         break;
       case "Castellan":
         authClasses = ["Dark Sigil Knight", "Druid", "Master Illusionist", "Dragon Sage", "Shinobi", "Oni", "Bard", "Ronin"];
