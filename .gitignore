@@ -12,6 +12,7 @@
 # Ignore the actual database files
 database/
 
-# Ignore nix files aswell
+# Ignore replit files aswell
 
 .nix
+.replit

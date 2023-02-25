@@ -27,6 +27,8 @@ module.exports = {
   name: Events.ClientReady,
   once: true,
   async execute(client) {
+    client.user.setPresence({ activities: [{ name: 'currently in ' + (client.guilds.length + 1) + ' servers'}] });
+    
     client.roblox = await noblox.setCookie(process.env.COOKIE)
 
     client.checkTable = function(array, look_for) {
