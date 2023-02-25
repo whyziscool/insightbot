@@ -19,6 +19,8 @@ const getUserTrait = (username) => {
       return "#1 deepwoken fan";
     case "huuc":
      return "plays faceless";
+    case "clash_andrew":
+      return '"kill all beaners" - clash_andrew 4:38:37 PM Saturday, February 25, 2023'
     case "Ragoozer":
       return "he loves permadeath";
     case "NanoProdigy":
@@ -90,8 +92,8 @@ module.exports = {
   let insight = [];
   
   try {
-    userId = await noblox.getIdFromUsername(args.join(" "));
-  
+    userId = await noblox.getIdFromUsername(args.join(" "))
+    
     if (!userId) {
       message.reply("could not find user, if this is a valid user try later because rate limits", true);
       return ["error", []];
@@ -161,6 +163,7 @@ module.exports = {
       
       message.reply({ embeds: [infoEmbed]}, true)
     } catch (err) {
+    message.reply("got an unexpected error (rate limit wait 10 seconds)", true)
     console.log(err)
    }
   }

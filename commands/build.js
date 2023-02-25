@@ -188,7 +188,7 @@ msg.awaitReactions({ filter, max: 1, time: 600000, errors: ['time'] })
 
 		if (reaction.emoji.name === '✅') {
 			message.reply('i sent the build to your dms', true);
-if (message.author.id === "584774112120143964") {
+if (message.author.id === "584774112120143964" || message.author.id === "419664539441823755") {
 message.author.send("https://cdn.discordapp.com/attachments/523282321303142400/1077288914794061925/rapidsave.com_trunk_shaker-9dptup9ireia1.mp4")
 } else {
 message.author.send({embeds: [msg.embeds[0]]})
