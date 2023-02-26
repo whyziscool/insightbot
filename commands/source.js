@@ -5,6 +5,7 @@ var fs = require("fs");
 
 module.exports = {
   name: "source",
+  description: "a library full of game copies",
   aliases: ["sources", "library"],
 cooldown: 10,
   cooldowns: [],

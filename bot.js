@@ -19,7 +19,7 @@ const noblox = require('noblox.js');
 const fs = require('fs');
 const path = require('path');
 
-const client = new Client({ intents: 65535, partials: [Partials.Channel, Partials.Message, Partials.GuildMember, Partials.User, Partials.Reaction] });
+const client = new Client({ intents: 65535, partials: [Partials.Channel, Partials.Message, Partials.GuildMember, Partials.User, Partials.Reaction, Partials.Guild] });
 
 client.commands = new Collection();
 

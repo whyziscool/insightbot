@@ -75,65 +75,7 @@ client.guilds.cache.forEach(guild => {
 });
       console.log("============")
 
-    setInterval(() => {
-  const currentTime = moment().tz("Asia/Kuwait");
-  const currentHour = currentTime.hour();
-  const currentMinute = currentTime.minute();
-
-  // Prayer times in Kuwait
-  const prayerTimes = {
-    4: 'Fajr', 12: 'Dhuhr', 15: 'Asr', 18: 'Maghrib', 19: 'Isha',
-  };
-
-  if (currentMinute === 25 && currentHour in prayerTimes) {
-    const prayerName = prayerTimes[currentHour];
-
-    const channel = client.channels.cache.get("1076742729977045075");
-    if (channel) {
-      const lastPrayerTime = client.lastPrayerTime || "Jummah";
-      
-      if (lastPrayerTime === prayerName) {
-        return;
-      }
-      client.lastPrayerTime = prayerName;
-
-      console.log("adhaan started")
-      
-      channel.send("======= " + prayerName + " Prayer =======");
-      channel.send("[KUWAIT TIMING] USA Prayer Time is XX + 8 hour");
-      channel.send('JOIN VC FOR ADHAN')
-      channel.send("Allahu Akbar Allahu Akbar.");
-
-      client.wait(2);
-
-      channel.send("Ašhadu al lā ilāha illā -llāhu");
-
-      client.wait(1);
-
-      channel.send("Ašhadu anna Muḥammada rasūlu -llāhi");
-
-      client.wait(1);
-
-      channel.send("Hasten to Prayer");
-
-      client.wait(1);
-      channel.send("Hasten to Salvation");
-
-      client.wait(1);
-
-      if (prayerName === "Fajr") {
-        channel.send("Prayer is better than sleep");
-      }
-
-      client.wait(1);
-
-      channel.send("Allahu Akbar Allahu Akbar");
-      channel.send("Ašhadu al lā ilāha illā -llāhu");
-
-      channel.send("======= " + prayerName + " Prayer =======");
-    }
-  }
-}, 10 * 1000); // run every 10 seconds
+     // run every 10 seconds
  // Check every 30 seconds
 
   }

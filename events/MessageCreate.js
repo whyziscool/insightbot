@@ -52,6 +52,8 @@ module.exports = {
 
     if (cmd.whitelist && message.author.id !== "604758234057670686") return;
 
+    if (message.channel.id === "1078949420353204275") return message.reply("un-able to use command in general", true)
+
     try {
       cmd.run(client, message, command, args);
     } catch (err) {
