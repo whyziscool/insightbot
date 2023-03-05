@@ -12,6 +12,7 @@ it contains:
 
 # Copyright
 
+- this bot may contain some open code from the internet cause half of the functions I did not care enough to write so credits to whoever's code was used
 - this bot does not contain ANY assets from the game Rogue Lineage.
 
 *******************************************************
@@ -25,6 +26,8 @@ it contains:
 *
 
 * insight bot can not be copied and/or distributed without the express (though it is allowed to contribute towards the project)
+
+*
 
 * permission of notaisar
 

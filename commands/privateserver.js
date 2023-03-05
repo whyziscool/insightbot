@@ -1,13 +1,13 @@
-const { EmbedBuilder } = require("discord.js")
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js")
 const noblox = require('noblox.js')
 
 module.exports = {
-  name: "privateserver",
-  description: "sends a rogue ps code",
-  aliases: ["ps", "private"],
-  cooldown: 60,
+  cooldown: 120,
   cooldowns: [],
-  async run(client, message, command, args) {  
+  data: new SlashCommandBuilder()
+	.setName('privateserver')
+	.setDescription('sends a rogue lineage private server code'),
+  async run(client, interaction) {  
     var ps = client.storage["privateservers"][Math.floor(Math.random() * client.storage["privateservers"].length)]
     var embed = new EmbedBuilder()
     embed.setTitle("rogue lineage: private server")
@@ -19,6 +19,6 @@ module.exports = {
     embed.setTimestamp()
     embed.setColor("#e3e3e3")
 
-   message.reply({embeds: [embed]}, true)
+   interaction.editReply({embeds: [embed]})
   } 
 }

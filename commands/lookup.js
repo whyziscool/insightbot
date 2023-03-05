@@ -1,5 +1,5 @@
-const { EmbedBuilder } = require("discord.js");
-const noblox = require('noblox.js');
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js")
+const noblox = require('noblox.js')
 
 const getUserTrait = (username) => {
   switch (username) {
@@ -22,14 +22,14 @@ const getUserTrait = (username) => {
     case "huuc":
      return "plays faceless";
     case "clash_andrew":
-      return '"kill all beaners" - clash_andrew 4:38:37 PM Saturday, February 25, 2023'
+      return '"kill all beaners" - clash_andrew 4:38:37 PM Saturday, February 25, 2023';
     case "Ragoozer":
       return "he loves permadeath";
     case "NanoProdigy":
       return "yurrr lissen man";
     case "LordSendo":
       return "pedophile and trans lover";
-    case "Valeyx":
+    case "Valeyx":     
       return "sendo v2";
     case "Gopnik":
       return "pedophile";
@@ -49,8 +49,8 @@ const getUserTrait = (username) => {
       return "terrorist";
     case "BananaWaffleCake":
       return "inmoon";
-    case "fuckyou":
-      return "fuk";
+    case "rogueEgirl":
+      return "https://cdn.discordapp.com/attachments/1078949420353204275/1079192027322908772/v09044g40000cb6l24rc77u9a3clrplg.mp4";
     default:
       return null;
   }
@@ -81,23 +81,23 @@ const itemTraits = [
 ];
 
 module.exports = {
-  name: "lookup",
-  description: "looks up a roblox profile and can provide insight",
-  aliases: ["whois", "who"],
-  cooldown: 4,
-  cooldowns: [],
-  async run (client, message, command, args) {
-
-  let userId;
+  data: new SlashCommandBuilder()
+	.setName('whois')
+	.setDescription('shows the roblox profile of the user')
+	.addStringOption(option =>
+		option.setName('username')
+			.setDescription('the user to display the profile of').setRequired(true)),
+  async run(client, interaction) {  
+    let userId;
   let user;
   
   let insight = [];
   
   try {
-    userId = await noblox.getIdFromUsername(args.join(" "))
+    userId = await noblox.getIdFromUsername(interaction.options.getString("username"))
     
     if (!userId) {
-      message.reply("could not find user, if this is a valid user try later because rate limits", true);
+      interaction.editReply({content: "could not find user, if this is a valid user try later because rate limits", ephemeral: true});
       return ["error", []];
     }
 
@@ -106,7 +106,7 @@ module.exports = {
     try {
       user = await noblox.getPlayerInfo(userId);
     } catch (err) {
-      message.reply("got an unexpected error", true);
+      interaction.editReply({content: "got an unexpected error", ephemeral: true});
       return;
     }
 
@@ -163,10 +163,16 @@ module.exports = {
         )
       }
       
-      message.reply({ embeds: [infoEmbed]}, true)
+      interaction.editReply({ embeds: [infoEmbed]})
     } catch (err) {
-    message.reply("got an unexpected error (rate limit wait 10 seconds)", true)
+    if (err.message.includes("User not found")) {
+      interaction.editReply({content: "thd user you provided does not exist", ephemeral: true})
+    } else {
+      interaction.editReply({content: "got rate limited, please wait 10 seconds", ephemeral: true})
+    }
+
+    
     console.log(err)
-   }
   }
+  } 
 }

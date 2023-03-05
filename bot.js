@@ -14,26 +14,34 @@
 
 *******************************************************/
 
-const { Client, GatewayIntentBits, Partials, Collection, Events } = require('discord.js');
+const { Client, GatewayIntentBits, Partials, Collection, Events, REST, Routes } = require('discord.js');
 const noblox = require('noblox.js');
-const fs = require('fs');
-const path = require('path');
+
+const fs = require('node:fs');
+const path = require('node:path');
+
+const commands = [];
 
 const client = new Client({ intents: 65535, partials: [Partials.Channel, Partials.Message, Partials.GuildMember, Partials.User, Partials.Reaction, Partials.Guild] });
 
 client.commands = new Collection();
 
-function unpack() {
-  const commandFiles = fs.readdirSync(path.join(__dirname, 'commands'), { withFileTypes: true });
-  for (const file of commandFiles) {
-    if (!file.isFile() || !file.name.endsWith('.js')) continue;
-    const fileName = file.name.slice(0, -3);
-    const fileContents = require(path.join(__dirname, 'commands', file.name));
-    client.commands.set(fileName, fileContents);
-    for (const alias of fileContents.aliases) {
-      client.commands.set(alias, fileContents);
-    }
+  const commandsPath = path.join(__dirname, 'commands');
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+  if (file === "") {
+    continue
   }
+	const filePath = path.join(commandsPath, file);
+	const command = require(filePath);
+
+	if ('data' in command && 'run' in command) {
+		client.commands.set(command.data.name, command);
+	} else {
+		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "run" property.`);
+	}
+}
 
   const eventFiles = fs.readdirSync(path.join(__dirname, 'events'), { withFileTypes: true });
   for (const file of eventFiles) {
@@ -47,11 +55,12 @@ function unpack() {
         client.on(eventName, (...args) => event.execute(client, ...args));
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   }
-}
 
-unpack();
+
+// Construct and prepare an instance of the REST module
+
 
 client.login(process.env.TOKEN);

@@ -1,13 +1,13 @@
-const { EmbedBuilder } = require("discord.js")
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js")
 const noblox = require('noblox.js')
 
 module.exports = {
-  name: "template",
-  description: "this isn't a command",
-  aliases: ["temp"],
-  async run(client, message, command, args) {  
-   if (!args[0]) return message.reply("provide something like edit or create or something")
-
-   message.reply("template", true)
+  data: new SlashCommandBuilder()
+	.setName('ping')
+	.setDescription('shows the web socket ping'),
+  async run(client, interaction) { 
+    //interaction.deferUpdate()
+    
+   interaction.editReply({content: "bot is running at " + client.ws.ping + "ms\n\n*keep in mind this bot doesn't have a reliable host*", ephemeral: true})
   } 
 }

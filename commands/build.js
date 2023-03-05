@@ -1,5 +1,5 @@
-const { EmbedBuilder } = require("discord.js");
-const noblox = require('noblox.js');
+const { EmbedBuilder, SlashCommandBuilder } = require("discord.js")
+const noblox = require('noblox.js')
 
 function chooseWithException(table, auth) {
   var newTable = table.filter(value => auth.includes(value))
@@ -7,7 +7,7 @@ function chooseWithException(table, auth) {
   return newTable[Math.floor(Math.random() * newTable.length)];
 }
 
-function giveBuild(client, message, args) {
+function giveBuild(client, interaction) {
   const storage = client.storage;
     const races = storage.races;
     const classes = storage.classes;
@@ -15,10 +15,12 @@ function giveBuild(client, message, args) {
 
     let chosenRace = races[Math.floor(Math.random() * races.length)]
 
-    if (args && args[0]) {
-      chosenRace = args[0] ? args[0].toLowerCase().charAt(0).toUpperCase() + args[0].slice(1) : chooseWithException(races, []);
+    var arg = interaction.options.getString("race") ?? false
+
+    if (arg) {
+      chosenRace = arg ? arg.toLowerCase().charAt(0).toUpperCase() + arg.slice(1) : chooseWithException(races, []);
     if (!races.includes(chosenRace)) {
-      message.reply(`could not find race in table called ${chosenRace}`);
+      interaction.editReply({content: `could not find race in table called ${chosenRace}`, ephemeral: true});
       
       return [false] 
     }}
@@ -137,16 +139,15 @@ const imgT = classToImage[chosenClass] || defaultImage;
   return [chosenRace, chosenClass, chosenArtifact, isVampire, imgT, emulate]
 }
 
-
-
 module.exports = {
-  name: "build",
-  description: "gives a rogue lineage build",
-  aliases: ["buildidea", "build", "rbuild", "buildorbust"],
-  cooldown: 3,
-  cooldowns: [],
-  async run(client, message, command, args) {
-    var data = giveBuild(client, message, args)
+  data: new SlashCommandBuilder()
+	.setName('rbuild')
+	.setDescription('sends a rogue lineage build, you can specify a race if needed')
+	.addStringOption(option =>
+		option.setName('race')
+			.setDescription('the race you want the build to be').setRequired(false)),
+  async run(client, interaction) {  
+    var data = giveBuild(client, interaction)
 
  if (data[0] === false) return;
     
@@ -175,26 +176,26 @@ infoembed.addFields(
   )
       }
 
-    var msg = await message.reply({ embeds: [infoembed] }, true)
+    var msg = await interaction.editReply({ embeds: [infoembed], fetchReply: true})
 
     msg.react('✅').then(() => msg.react('❌'));
 
 const filter = (reaction, user) => {
-	return ['✅', '❌'].includes(reaction.emoji.name) && user.id === message.author.id;
+	return ['✅', '❌'].includes(reaction.emoji.name) && user.id === interaction.user.id;
 };
 msg.awaitReactions({ filter, max: 1, time: 600000, errors: ['time'] })
 	.then(collected => {
 		const reaction = collected.first();
 
 		if (reaction.emoji.name === '✅') {
-			message.reply('i sent the build to your dms', true);
-if (message.author.id === "584774112120143964" || message.author.id === "419664539441823755") {
-message.author.send("https://cdn.discordapp.com/attachments/523282321303142400/1077288914794061925/rapidsave.com_trunk_shaker-9dptup9ireia1.mp4")
+			interaction.followUp({content:'i sent the build to your dms', ephemeral: true});
+if (interaction.user.id === "584774112120143964" || interaction.user.id === "419664539441823755") {
+interaction.user.send("https://cdn.discordapp.com/attachments/523282321303142400/1077288914794061925/rapidsave.com_trunk_shaker-9dptup9ireia1.mp4")
 } else {
-message.author.send({embeds: [msg.embeds[0]]})
+interaction.user.send({embeds: [msg.embeds[0]]})
 }
 		} else {
-			var data = giveBuild(client, message, args)
+			var data = giveBuild(client, interaction)
     var chosenRace = data[0]
     var chosenClass = data[1]
     var chosenArtifact = data[2]
@@ -220,15 +221,8 @@ infoembed.addFields(
   )
       }
 
-    msg.edit({ embeds: [infoembed] }, true)
-		}
-	})
-	.catch(collected => {
-	console.log("did not react in time")
-	});
-    
-
-  
-
-  }
+  interaction.editReply({ embeds: [infoembed] })
+		};
+    })
+  } 
 }
