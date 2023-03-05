@@ -23,8 +23,10 @@ const path = require('path');
 const app = express();
 const manager = new ShardingManager(path.join(__dirname, 'bot.js'), { token: process.env.TOKEN });
 
+app.use(express.static('public'));
+
 app.get('/', (req, res) => {
-  res.send('server started');
+  res.sendFile(__dirname + '/public/index.html');
 });
 
 app.listen(process.env.PORT || 3000, () => {

@@ -1,0 +1,16 @@
+body {
+  background-image: url('https://media.discordapp.net/attachments/1080649388101226507/1081998911713058987/erLrNWPyXyxTuDi-1600x900-noPad.jpg');
+  background-size: cover;
+}
+
+body:before {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  filter: blur(1px);
+}
