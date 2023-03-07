@@ -24,6 +24,23 @@ const commands = [];
 
 const client = new Client({ intents: 65535, partials: [Partials.Channel, Partials.Message, Partials.GuildMember, Partials.User, Partials.Reaction, Partials.Guild] });
 
+const gistUrl = process.env.ENV_WEB;
+const accessToken = process.env.ENV_KEY;
+
+fetch(gistUrl, {
+  headers: {
+    "Authorization": `token ${accessToken}`
+  }
+})
+.then(response => response.json())
+.then(data => {
+  client.env = data
+})
+.catch(error => {
+  console.error("ERROR: " + error);
+});
+
+
 client.commands = new Collection();
 
   const commandsPath = path.join(__dirname, 'commands');
