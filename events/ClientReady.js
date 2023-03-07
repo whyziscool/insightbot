@@ -13,25 +13,6 @@ const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('
 
 var commands = []
 
-const db = new sqlite3.Database('./database/database.db', (err) => {
-  if (err) {
-    console.error(err.message);
-  }
-  console.log('connected to the database');
-  
-  // Create the pastebins table if it doesn't exist
-  db.run(`CREATE TABLE IF NOT EXISTS scripts (
-    id TEXT PRIMARY KEY,
-    content TEXT,
-    owner_id TEXT,
-    guild_id TEXT
-  )`, (err) => {
-    if (err) {
-      console.error(err.message);
-    }
-  });
-});
-
 module.exports = {
   name: Events.ClientReady,
   once: true,
