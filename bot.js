@@ -24,22 +24,7 @@ const commands = [];
 
 const client = new Client({ intents: 65535, partials: [Partials.Channel, Partials.Message, Partials.GuildMember, Partials.User, Partials.Reaction, Partials.Guild] });
 
-const axios = require('axios')
-const gistUrl = process.env.ENV_WEB;
-const accessToken = process.env.ENV_KEY;
-
-axios.get(gistUrl, {
-  headers: {
-    "Authorization": `token ${accessToken}`
-  }
-})
-.then(response => {
-  client.env = response.data;
-})
-.catch(error => {
-  console.error(error);
-});
-
+client.env = process.env
 
 client.commands = new Collection();
 
