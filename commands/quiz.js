@@ -23,7 +23,7 @@ module.exports = {
 				interaction.followUp(`${collected.first().author} got the correct answer it was **${collected.first().content}**`);
 			})
 			.catch(collected => {
-				interaction.followUp('no one got the answer');
+				interaction.followUp('no one got the answer it was **' + q.answer[0] + '**');
 			});
 	});
   } 
