@@ -65,7 +65,7 @@ client.guilds.cache.forEach(guild => {
 "privateservers": (process.env.privateservers).split(":")
     }
 
-    client.database = db
+    client.database = [] // bandage
 
     console.log(`logged in as ${client.user.tag} with ${client.guilds.cache.size} servers`)
     console.log(`signed in as ${client.roblox.UserName}#${client.roblox.UserID}`)
