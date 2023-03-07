@@ -1,8 +1,6 @@
 const { EmbedBuilder, SlashCommandBuilder } = require("discord.js")
 const noblox = require('noblox.js')
 
-var questions = JSON.parse(process.env.questions)
-
 module.exports = {
   cooldown: 2,
   cooldowns: [],
@@ -11,7 +9,8 @@ module.exports = {
 	.setDescription('just puts a quiz'),
   async run(client, interaction) { 
     //interaction.deferUpdate()
-
+if (!client.env) return interaction.editReply("got an error");
+var questions = JSON.parse(client.env)
         const q = questions[Math.floor(Math.random() * questions.length)];
     
     var message = await interaction.editReply({content: q.question, fetchReply: true, ephemeral: false}).then(() => {
