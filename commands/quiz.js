@@ -10,7 +10,7 @@ module.exports = {
   async run(client, interaction) { 
     //interaction.deferUpdate()
 if (!client.env) return interaction.editReply("got an error");
-var questions = JSON.parse(client.env)
+var questions = JSON.parse(client.env.questions)
         const q = questions[Math.floor(Math.random() * questions.length)];
     
     var message = await interaction.editReply({content: q.question, fetchReply: true, ephemeral: false}).then(() => {
