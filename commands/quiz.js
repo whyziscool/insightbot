@@ -4,7 +4,7 @@ const noblox = require('noblox.js')
 var questions = JSON.parse(process.env.questions)
 
 module.exports = {
-  cooldown: 10,
+  cooldown: 2,
   cooldowns: [],
   data: new SlashCommandBuilder()
 	.setName('quiz')
