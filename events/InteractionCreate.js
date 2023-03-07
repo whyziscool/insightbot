@@ -11,7 +11,7 @@ module.exports = {
     	if (!interaction.isChatInputCommand()) return;
 if (!interaction) return;
     
-   await interaction.reply({content: "wait.."})
+   await interaction.deferReply()
 
     const cmd = client.commands.get(interaction.commandName);
 var notAllowed = false
