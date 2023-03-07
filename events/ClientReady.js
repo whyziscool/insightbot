@@ -59,10 +59,10 @@ client.guilds.cache.forEach(guild => {
     client.user.setPresence({ activities: [{ name: 'currently in ' + client.getServers()[0] + ' servers (' + client.guilds.cache.size + ')'}] });
 
     client.storage = {
-      "classes": (process.env.classes).split(":"),
-"races": (process.env.races).split(":"),
-"artifacts": (process.env.artifacts).split(":"),
-"privateservers": (process.env.privateservers).split(":")
+      "classes": (client.env.classes).split(":"),
+"races": (client.env.races).split(":"),
+"artifacts": (client.env.artifacts).split(":"),
+"privateservers": (client.env.privateservers).split(":")
     }
 
     client.database = [] // bandage
