@@ -2,7 +2,7 @@ const { EmbedBuilder, SlashCommandBuilder, PermissionsBitField } = require("disc
 const noblox = require('noblox.js')
 
 module.exports = {
-  permissions: ["TimeoutMembers"],
+  permissions: ["ModerateMembers"],
   data: new SlashCommandBuilder()
 	.setName('timeout')
 	.setDescription('times out a member')
