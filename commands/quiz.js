@@ -13,7 +13,7 @@ if (!client.env) return interaction.editReply("got an error");
 var questions = JSON.parse(client.env.questions)
         const q = questions[Math.floor(Math.random() * questions.length)];
     
-    var message = await interaction.editReply({content: q.question, fetchReply: true, ephemeral: false}).then(() => {
+    var message = await interaction.editReply({content: q.question.toLowerCase(), fetchReply: true, ephemeral: false}).then(() => {
       const filter = response => {
 	return q.answer.some(answer => answer.toLowerCase() === response.content.toLowerCase());
 };
