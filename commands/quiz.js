@@ -8,7 +8,7 @@ module.exports = {
 	.setName('quiz')
 	.setDescription('just puts a quiz'),
   async run(client, interaction) { 
-    //interaction.deferUpdate()
+    
 if (!client.env) return interaction.editReply("got an error");
 var questions = JSON.parse(client.env.questions)
         const q = questions[Math.floor(Math.random() * questions.length)];
