@@ -27,12 +27,12 @@ const getUserTrait = (username) => {
       return "he loves permadeath";
     case "NanoProdigy":
       return "yurrr lissen man";
-    case "LordSendo":
-      return "pedophile and trans lover";
-    case "Valeyx":     
-      return "sendo v2";
-    case "Gopnik":
-      return "pedophile";
+    case "sixdemises":
+      return "built different";
+    case "rngmoth":     
+      return "demon of gaia, goated nigga";
+    case "appledogPE":
+      return "the biggest bird";
     case "b4ncck":
       return "awesome swallow reversal creator";
     case "CaptainLosticJr":
