@@ -1,4 +1,4 @@
-# insight bot
+# rogue utilities bot
 
 generally a bot I published not for copy and pasting just as a repo so please do **NOT** steal the code and use it on your own, it's only there for **observing** purposes.
 
@@ -17,18 +17,14 @@ it contains:
 
 *******************************************************
 
-* Copyright (C) 2023-2024 notaisar <aisarwinning@courvix.com>
+*
+
+* This file is part of rogue utilities bot.
 
 *
 
-* This file is part of insight bot.
+* rogue utilities bot can not be copied and/or distributed without the express (though it is allowed to contribute towards the project)
 
 *
-
-* insight bot can not be copied and/or distributed without the express (though it is allowed to contribute towards the project)
-
-*
-
-* permission of notaisar
 
 *******************************************************
